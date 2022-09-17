@@ -32,6 +32,7 @@
    --><button id="tear_btn">Tear</button><!--
    --><button id="select_all_btn" disabled>Select All</button><!--
    --><button id="delete_selected_btn" disabled>Delete</button><!--
+   --><button id="save_selected_btn">Save Selected</button><!--
    --><br>
       <!--#RESET--> <!--#RAWDATA-->
       <br>
@@ -62,6 +63,7 @@
       const tearBtn = document.getElementById("tear_btn");
       const deleteSelectedBtn = document.getElementById("delete_selected_btn");
       const selectAllBtn = document.getElementById("select_all_btn");
+      const saveSelectedBtn = document.getElementById("save_selected_btn");
 
       Date.prototype.today = function (delim) {
           return ((this.getDate() < 10)?"0":"") + this.getDate() + delim + (((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + delim + this.getFullYear();
@@ -305,6 +307,16 @@
         selectAllBtn.disabled = (items.length == 0);
       });
 
+      saveSelectedBtn.addEventListener("click", function () {       
+        var items = gallery.children;
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].markedForDeletion){
+            var a = items[i].firstChild;
+            downloadImage(a);
+          }
+        } 
+      });
+      
       tearBtn.addEventListener("click", async function () {
         fetch(resetPath)
           .then((response) => {
